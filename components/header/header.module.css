@@ -1,0 +1,16 @@
+.container {
+    display: flex;
+    align-items: center;
+
+    margin: 0.5em;
+    background: linear-gradient(to right, #20bf57, #01baef);
+}
+
+.title {
+    margin-left: 0.7em;
+}
+
+.logo {
+    margin: 0.5em;
+    padding-bottom: 1em;
+}
