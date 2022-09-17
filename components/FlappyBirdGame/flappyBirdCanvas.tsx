@@ -1,13 +1,15 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef } from "react";
 import styles from "./canvas.module.css";
-import { BIRD_JUMPING_POWER } from "./gameSettings";
+import {
+    acceleration,
+    birdJumpingPower,
+    frameRate,
+    gravity,
+} from "./gameSettings";
 
 const FlappyBirdCanvas = (props: any): React.ReactElement => {
     const canvas = useRef<HTMLCanvasElement>(null);
-    let frameRate = 40;
     let jumpPower = 0;
-    let gravity = 15;
-    let acceleration = 0.9;
 
     const update = (
         ctx: CanvasRenderingContext2D,
@@ -33,6 +35,9 @@ const FlappyBirdCanvas = (props: any): React.ReactElement => {
             if (birdY > ctx.canvas.height) {
                 birdY = 0;
             }
+            if (birdY < 0) {
+                birdY = 0;
+            }
         };
     };
 
@@ -50,14 +55,6 @@ const FlappyBirdCanvas = (props: any): React.ReactElement => {
                     },
                     false
                 );
-
-                // drawBird(posX, posY, ctx);
-                // setInterval(() => {
-                //     if (isJumping) {
-                //         drawBird(posX, posY, ctx);
-                //         isJumping = false;
-                //     }
-                // });
             }
         }
     }, []);
@@ -66,7 +63,7 @@ const FlappyBirdCanvas = (props: any): React.ReactElement => {
         <div
             style={{ textAlign: "center" }}
             onClick={() => {
-                jumpPower = BIRD_JUMPING_POWER;
+                jumpPower = birdJumpingPower;
             }}>
             <canvas className={styles.canvas} ref={canvas} {...props} />
         </div>
