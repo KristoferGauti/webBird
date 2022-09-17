@@ -1,1 +1,1 @@
-export let BIRD_JUMPING_POWER = 40;
+export let BIRD_JUMPING_POWER = 55;
