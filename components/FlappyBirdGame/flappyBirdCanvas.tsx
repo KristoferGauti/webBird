@@ -3,10 +3,10 @@ import styles from "./canvas.module.css";
 import { BIRD_JUMPING_POWER } from "./gameSettings";
 
 const FlappyBirdCanvas = (props: any): React.ReactElement => {
-    const [isJumping, setIsJumping] = useState(false);
     const canvas = useRef<HTMLCanvasElement>(null);
     let posX = 160;
     let posY = 320;
+    let isJumping = false;
 
     const drawBird = (x: number, y: number, ctx: CanvasRenderingContext2D) => {
         ctx.canvas.width = window.innerWidth * 0.9;
@@ -22,19 +22,17 @@ const FlappyBirdCanvas = (props: any): React.ReactElement => {
         };
     };
 
-    const animate = (ctx: CanvasRenderingContext2D) => {
-        setInterval(() => {
-            return (() => {
-                drawBird(posX, posY, ctx);
-            })();
-        });
-    };
-
     useEffect(() => {
         if (canvas.current) {
             const ctx = canvas.current.getContext("2d");
             if (ctx) {
-                animate(ctx);
+                drawBird(posX, posY, ctx);
+                setInterval(() => {
+                    if (isJumping) {
+                        drawBird(posX, posY, ctx);
+                        isJumping = false;
+                    }
+                });
             }
         }
     }, []);
@@ -44,6 +42,7 @@ const FlappyBirdCanvas = (props: any): React.ReactElement => {
             style={{ textAlign: "center" }}
             onClick={() => {
                 posY -= BIRD_JUMPING_POWER;
+                isJumping = true;
             }}>
             <canvas className={styles.canvas} ref={canvas} {...props} />
         </div>
