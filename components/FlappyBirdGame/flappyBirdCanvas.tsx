@@ -24,19 +24,10 @@ const FlappyBirdCanvas = (props: any): React.ReactElement => {
 
     const animate = (ctx: CanvasRenderingContext2D) => {
         setInterval(() => {
-            return (
-                (() => {
-                    ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
-                    drawBird(posX, posY, ctx);
-
-                    posX += 1;
-                    if (posX > ctx.canvas.width) {
-                        posX = 0;
-                    }
-                })(),
-                1000 / 40
-            );
-        }, 1000);
+            return (() => {
+                drawBird(posX, posY, ctx);
+            })();
+        });
     };
 
     useEffect(() => {
@@ -52,7 +43,6 @@ const FlappyBirdCanvas = (props: any): React.ReactElement => {
         <div
             style={{ textAlign: "center" }}
             onClick={() => {
-                console.log("jump homie");
                 posY -= BIRD_JUMPING_POWER;
             }}>
             <canvas className={styles.canvas} ref={canvas} {...props} />
