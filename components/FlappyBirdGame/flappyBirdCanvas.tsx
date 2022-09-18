@@ -19,15 +19,19 @@ const FlappyBirdCanvas = (props: any): React.ReactElement => {
     };
 
     const drawPipe = (
+        x1: number,
+        y1: number,
+        x2: number,
+        y2: number,
         ctx: CanvasRenderingContext2D,
-        x: number,
-        y: number,
-        pipeHeight: number
+        pipeHeight1: number,
+        pipeHeight2: number
     ) => {
         const pipeWidth = 100;
         ctx.fillStyle = "#2CB01A";
-        ctx.fillRect(x, y - pipeHeight, pipeWidth, pipeHeight);
-        ctx.fillRect(x, 0, pipeWidth, 100);
+
+        ctx.fillRect(x1, y1, pipeWidth, pipeHeight1); // Top pipe
+        ctx.fillRect(x2, y2 - pipeHeight2, pipeWidth, pipeHeight2); // Bottom pipe
     };
 
     const update = (
@@ -36,14 +40,29 @@ const FlappyBirdCanvas = (props: any): React.ReactElement => {
     ) => {
         let birdX = 160;
         let birdY = ctx.canvas.height / 2;
+        let pipeX = window.innerWidth - 400;
 
         return () => {
             ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
 
             drawBackground(ctx);
             ctx.drawImage(bird_img, birdX, birdY, 50, 50);
-            drawPipe(ctx, ctx.canvas.width - 300, ctx.canvas.height, 300);
 
+            drawPipe(pipeX, 0, pipeX, ctx.canvas.height, ctx, 100, 300);
+            drawPipe(
+                pipeX - 400,
+                0,
+                pipeX - 400,
+                ctx.canvas.height,
+                ctx,
+                100,
+                300
+            );
+
+            // console.log(pipeX);
+            // console.log("height", ctx.canvas.height);
+
+            pipeX -= 5;
             birdY -= jumpPower;
             birdY += gravity;
             jumpPower *= acceleration;
